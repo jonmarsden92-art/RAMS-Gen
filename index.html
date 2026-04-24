@@ -4,22 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kingsway Group - RAMS Generator 2025</title>
-    <script src="https://unpkg.com/docx@8.5.0/build/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <style>
-        :root { --kingsway-blue: #1e3c72; --kingsway-red: #8b0000; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f9; padding: 20px; color: #333; }
-        .container { max-width: 1000px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; }
-        .header { background: var(--kingsway-blue); color: white; padding: 20px; text-align: center; }
-        .form-section { padding: 25px; border-bottom: 1px solid #eee; }
-        .form-section h2 { font-size: 1.1rem; color: var(--kingsway-blue); border-left: 4px solid var(--kingsway-blue); padding-left: 10px; margin-bottom: 20px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .field { display: flex; flex-direction: column; gap: 5px; }
-        label { font-weight: bold; font-size: 0.85rem; color: #666; }
-        input, select, textarea { padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
-        .ae-result { background: #eef6ff; padding: 10px; margin-top: 10px; border-radius: 4px; font-size: 0.9rem; }
-        .btn-generate { background: #28a745; color: white; border: none; padding: 20px; width: 100%; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-generate:hover { background: #218838; }
+        :root { --brand: #1e3c72; --accent: #2a5298; --grey: #f4f7f9; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--grey); padding: 20px; line-height: 1.6; }
+        .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background: var(--brand); color: white; padding: 40px 20px; text-align: center; }
+        .header h1 { margin: 0; font-size: 28px; letter-spacing: 1px; }
+        .form-section { padding: 30px; border-bottom: 1px solid #eee; }
+        .form-section h2 { font-size: 18px; color: var(--brand); margin-bottom: 20px; text-transform: uppercase; border-left: 4px solid var(--brand); padding-left: 15px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .field { display: flex; flex-direction: column; gap: 8px; }
+        label { font-weight: 700; font-size: 13px; color: #555; }
+        input, select, textarea { padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; transition: 0.3s; }
+        input:focus { border-color: var(--brand); outline: none; box-shadow: 0 0 0 3px rgba(30,60,114,0.1); }
+        .ae-notice { background: #e7f3ff; border: 1px solid #b3d7ff; padding: 15px; border-radius: 6px; margin-top: 10px; font-size: 13px; color: #004085; }
+        .btn-container { padding: 30px; background: #fdfdfd; text-align: center; }
+        .btn-generate { background: #28a745; color: white; border: none; padding: 20px 40px; font-size: 18px; font-weight: 700; border-radius: 8px; cursor: pointer; width: 100%; transition: 0.3s; }
+        .btn-generate:hover { background: #218838; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(40,167,69,0.3); }
+        .btn-generate:disabled { background: #ccc; cursor: not-allowed; }
     </style>
 </head>
 <body>
@@ -27,196 +31,198 @@
 <div class="container">
     <div class="header">
         <h1>Kingsway Group RAMS Generator</h1>
-        <p>Door Set Installation Professional Template (v2025.1)</p>
+        <p>Door Set Installation Document (2025 Standard)</p>
     </div>
 
     <div class="form-body">
         <div class="form-section">
-            <h2>1. Project Identification</h2>
+            <h2>1. Site Identification</h2>
             <div class="grid">
-                <div class="field"><label>Site Name</label><input type="text" id="siteName" placeholder="e.g. Priory Hospital"></div>
-                <div class="field"><label>Task Title</label><input type="text" id="taskTitle" value="Door Set fitting"></div>
+                <div class="field"><label>Site Name</label><input type="text" id="siteName" placeholder="e.g. Priory Woodbourne"></div>
+                <div class="field"><label>Title of Task</label><input type="text" id="taskTitle" value="Door Set fitting"></div>
                 <div class="field">
-                    <label>Site Address (Auto-lookup A&E)</label>
-                    <input type="text" id="siteAddress" placeholder="Enter address or postcode">
-                    <div id="aeResult" class="ae-result">A&E: TBC (Type address to search)</div>
+                    <label>Full Site Address & Postcode</label>
+                    <input type="text" id="siteAddress" placeholder="123 Street Name, Town, AB1 2CD">
+                    <div id="aeStatus" class="ae-notice">A&E Lookup: 🗺️ Enter address to search...</div>
                 </div>
-                <div class="field"><label>Date of Work</label><input type="date" id="taskDate"></div>
+                <div class="field"><label>Work Date</label><input type="date" id="taskDate"></div>
             </div>
         </div>
 
         <div class="form-section">
-            <h2>2. Labour and Supervision</h2>
+            <h2>2. Labour & Document Control</h2>
             <div class="grid">
-                <div class="field"><label>Project Manager (Kingsway)</label><input type="text" id="pm" placeholder="Name / Number"></div>
-                <div class="field"><label>Project Coordinator</label><input type="text" id="pc" placeholder="Name / Number"></div>
-                <div class="field"><label>Principal Contractor</label><input type="text" id="princContractor" placeholder="Client Name"></div>
-                <div class="field"><label>Main Contractor</label><input type="text" id="mainContractor" placeholder="Main Contractor Name"></div>
-                <div class="field"><label>H&S Consultant</label><input type="text" id="hsConsultant" placeholder="Name / Company"></div>
-                <div class="field"><label>MS Number</label><input type="text" id="msNumber" value="RAMS1936/2022"></div>
+                <div class="field"><label>Project Manager (Kingsway)</label><input type="text" id="pm" placeholder="Name and Number"></div>
+                <div class="field"><label>Project Coordinator</label><input type="text" id="pc" placeholder="Name and Number"></div>
+                <div class="field"><label>MS Number</label><input type="text" id="msNumber" value="RAMS1936/2025"></div>
+                <div class="field"><label>Principal Contractor</label><input type="text" id="princContractor" placeholder="Company Name"></div>
             </div>
         </div>
 
-        <div class="form-section">
-            <h2>3. Document Control</h2>
-            <div class="grid">
-                <div class="field"><label>Produced By</label><input type="text" id="producedBy"></div>
-                <div class="field"><label>Reviewed By</label><input type="text" id="reviewedBy"></div>
-            </div>
+        <div class="btn-container">
+            <button class="btn-generate" id="genBtn" onclick="generateRAMS()">Download Completed RAMS Document (.docx)</button>
         </div>
-
-        <button class="btn-generate" onclick="generateDocument()">Generate & Download Complete RAMS (.docx)</button>
     </div>
 </div>
 
 <script>
+    // Global state for hospital
+    let hospitalInfo = { name: "TBC", address: "Local Emergency Department" };
     document.getElementById('taskDate').valueAsDate = new Date();
-    let hospitalInfo = { name: "TBC", address: "Local facility as directed by PC" };
 
-    // A&E Lookup
-    let timer;
+    // A&E Automatic Search
+    let searchTimer;
     document.getElementById('siteAddress').addEventListener('input', (e) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => lookupAE(e.target.value), 1000);
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => lookupHospital(e.target.value), 1000);
     });
 
-    async function lookupAE(query) {
-        if (query.length < 5) return;
+    async function lookupHospital(addr) {
+        if (addr.length < 8) return;
+        const status = document.getElementById('aeStatus');
+        status.innerText = "🔍 Searching for nearest A&E...";
         try {
-            const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query + " UK")}`);
-            const data = await res.json();
-            if (data.length > 0) {
-                const { lat, lon } = data[0];
+            const geo = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(addr + " UK")}`);
+            const geoData = await geo.json();
+            if (geoData.length > 0) {
+                const { lat, lon } = geoData[0];
                 const osm = `[out:json];node["amenity"="hospital"]["emergency"="yes"](around:20000,${lat},${lon});out;`;
                 const hRes = await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: osm });
                 const hData = await hRes.json();
                 if (hData.elements.length > 0) {
                     const h = hData.elements[0];
-                    hospitalInfo = { name: h.tags.name, address: h.tags['addr:street'] || "Nearest Emergency Dept" };
-                    document.getElementById('aeResult').innerText = `A&E Found: ${hospitalInfo.name}`;
+                    hospitalInfo = { name: h.tags.name, address: h.tags['addr:street'] || "Nearest Hospital" };
+                    status.innerHTML = `✅ <strong>Nearest A&E Found:</strong> ${hospitalInfo.name}`;
                 }
             }
-        } catch (e) { console.log("A&E Lookup fail"); }
+        } catch (e) { status.innerText = "⚠️ Auto-lookup failed. Using manual TBC."; }
     }
 
-    async function generateDocument() {
-        const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, WidthType, AlignmentType, HeadingLevel, BorderStyle, ShadingType } = window.docx;
+    async function generateRAMS() {
+        const btn = document.getElementById('genBtn');
+        btn.disabled = true;
+        btn.innerText = "⏳ Building 12-Page Document...";
+
+        // Safety check for library
+        if (typeof window.docx === 'undefined') {
+            alert("The 'docx' library is still loading. Please wait 5 seconds and try again.");
+            btn.disabled = false;
+            btn.innerText = "Download Completed RAMS Document (.docx)";
+            return;
+        }
+
+        const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, WidthType, AlignmentType, HeadingLevel } = window.docx;
         const val = (id) => document.getElementById(id).value;
 
-        const doc = new Document({
-            sections: [{
-                children: [
-                    // Header Table (Source 483 style)
-                    new Table({
-                        width: { size: 100, type: WidthType.PERCENTAGE },
-                        rows: [
-                            new TableRow({
+        try {
+            const doc = new Document({
+                sections: [{
+                    children: [
+                        // --- COVER PAGE HEADER ---
+                        new Table({
+                            width: { size: 100, type: WidthType.PERCENTAGE },
+                            rows: [
+                                new TableRow({
+                                    children: [
+                                        new TableCell({ 
+                                            children: [new Paragraph({ children: [new TextRun({ text: "KINGSWAY GROUP - METHOD STATEMENT & RISK ASSESSMENT", bold: true, size: 28 })], alignment: AlignmentType.CENTER })],
+                                            columnSpan: 2, shading: { fill: "f2f2f2" }
+                                        })
+                                    ]
+                                }),
+                                new TableRow({
+                                    children: [
+                                        new TableCell({ children: [new Paragraph(`Site Name: ${val('siteName')}`)] }),
+                                        new TableCell({ children: [new Paragraph(`Date: ${val('taskDate')}`)] })
+                                    ]
+                                })
+                            ]
+                        }),
+
+                        // --- INTRODUCTION & PPE ---
+                        new Paragraph({ text: "INTRODUCTION", heading: HeadingLevel.HEADING_1, spacing: { before: 400, after: 200 } }),
+                        new Paragraph("This document sets out the arrangements and health and safety considerations included in the planning for the installation of Door Sets. The document is laid out to provide an overview of the pre-requisites for site, the outline sequence to be followed and the specific activity details for each element of the installation and final fix process."),
+                        
+                        new Paragraph({ text: "PERSONAL PROTECTIVE EQUIPMENT (PPE)", heading: HeadingLevel.HEADING_1, spacing: { before: 400 } }),
+                        new Paragraph({ children: [new TextRun({ text: "Minimum Requirement (At all times):", bold: true })] }),
+                        new Paragraph("• Safety Boots (BS-EN 345)\n• Hi-vis Vest (BS-EN 471)\n• Gloves (BS-EN 388)"),
+                        new Paragraph({ children: [new TextRun({ text: "Task Specific (During installation):", bold: true })], spacing: { before: 200 } }),
+                        new Paragraph("• Safety Helmet with chin strap (BS-EN 397)\n• Dust Mask (FFP3) (BS-EN 149)\n• Grade 1 impact Goggles (BS-EN 166)\n• Ear Plugs (BS-EN 352)"),
+
+                        // --- LABOUR & SUPERVISION ---
+                        new Paragraph({ text: "LABOUR AND SUPERVISION", heading: HeadingLevel.HEADING_1, spacing: { before: 400 } }),
+                        new Paragraph(`Project Manager: ${val('pm')}`),
+                        new Paragraph(`Project Coordinator: ${val('pc')}`),
+                        new Paragraph(`Principal Contractor: ${val('princContractor')}`),
+
+                        // --- THE 100KG RULE & MANUAL HANDLING ---
+                        new Paragraph({ text: "MANUAL HANDLING PROTOCOL (100KG+)", heading: HeadingLevel.HEADING_1, spacing: { before: 400 } }),
+                        new Paragraph("Fire doors being installed are high-density and frequently weigh in excess of 100kg. NO LIFTING is to be performed by a single operative. A minimum of TWO trained personnel must use mechanical aids (door dollies/lifters). If a door exceeds 100kg and mechanical aids are unavailable, additional manpower MUST be requested before work continues."),
+
+                        // --- EMERGENCY PROCEDURES ---
+                        new Paragraph({ text: "EMERGENCY PROCEDURES", heading: HeadingLevel.HEADING_1, spacing: { before: 400 } }),
+                        new Paragraph({ children: [new TextRun({ text: "Nearest A&E Hospital: ", bold: true }), new TextRun(hospitalInfo.name)] }),
+                        new Paragraph({ children: [new TextRun({ text: "Hospital Address: ", bold: true }), new TextRun(hospitalInfo.address)] }),
+                        new Paragraph("In the event of an accident: 1. Stop work. 2. Notify Site Manager. 3. Call 999 if life-threatening. 4. Escort to A&E if required."),
+
+                        // --- MAC TOOL / RISK SUMMARY ---
+                        new Paragraph({ text: "MAC TOOL & RISK SUMMARY", heading: HeadingLevel.HEADING_1, spacing: { before: 400 } }),
+                        new Table({
+                            width: { size: 100, type: WidthType.PERCENTAGE },
+                            rows: [
+                                new TableRow({
+                                    children: [
+                                        new TableCell({ children: [new Paragraph("Hazard")], shading: { fill: "eeeeee" } }),
+                                        new TableCell({ children: [new Paragraph("Initial Risk")], shading: { fill: "eeeeee" } }),
+                                        new TableCell({ children: [new Paragraph("Residual Risk")], shading: { fill: "eeeeee" } })
+                                    ]
+                                }),
+                                new TableRow({
+                                    children: [
+                                        new TableCell({ children: [new Paragraph("Manual Handling (Heavy Doors)")] }),
+                                        new TableCell({ children: [new Paragraph("High")] }),
+                                        new TableCell({ children: [new Paragraph("Low (with mechanical aid)")] })
+                                    ]
+                                }),
+                                new TableRow({
+                                    children: [
+                                        new TableCell({ children: [new Paragraph("Silica Dust / Wood Dust")] }),
+                                        new TableCell({ children: [new Paragraph("Medium")] }),
+                                        new TableCell({ children: [new Paragraph("Low (FFP3 Mask/Extraction)")] })
+                                    ]
+                                })
+                            ]
+                        }),
+
+                        // --- SIGN OFF ---
+                        new Paragraph({ text: "READ AND UNDERSTOOD SIGN-OFF", heading: HeadingLevel.HEADING_1, spacing: { before: 800 } }),
+                        new Paragraph("I confirm I have read, understood, and will comply with this Method Statement."),
+                        new Table({
+                            width: { size: 100, type: WidthType.PERCENTAGE },
+                            rows: Array(6).fill(0).map(() => new TableRow({
                                 children: [
-                                    new TableCell({ 
-                                        children: [new Paragraph({ children: [new TextRun({ text: "KINGSWAY GROUP - Safety Management System", bold: true, size: 24 })], alignment: AlignmentType.CENTER })],
-                                        columnSpan: 2, shading: { fill: "f2f2f2" }
-                                    })
+                                    new TableCell({ children: [new Paragraph(" ")] }),
+                                    new TableCell({ children: [new Paragraph(" ")] }),
+                                    new TableCell({ children: [new Paragraph(" ")] })
                                 ]
-                            }),
-                            new TableRow({
-                                children: [
-                                    new TableCell({ children: [new Paragraph(`Site Name: ${val('siteName')}`)] }),
-                                    new TableCell({ children: [new Paragraph(`MS NO: ${val('msNumber')}`)] })
-                                ]
-                            }),
-                            new TableRow({
-                                children: [
-                                    new TableCell({ children: [new Paragraph(`Date: ${val('taskDate')}`)] }),
-                                    new TableCell({ children: [new Paragraph(`Task: ${val('taskTitle')}`)] })
-                                ]
-                            })
-                        ]
-                    }),
+                            }))
+                        })
+                    ]
+                }]
+            });
 
-                    // Introduction (Source 266-269)
-                    new Paragraph({ text: "INTRODUCTION", heading: HeadingLevel.HEADING_1, spacing: { before: 400 } }),
-                    new Paragraph({ text: "This document sets out the arrangements and health and safety considerations included in the planning for the installation of Door Sets. ALL KINGSWAY GROUP STAFF ARE TO BE MADE AWARE OF THIS DOCUMENT AND THE RELEVANT RISK ASSESSMENT[cite: 269].", spacing: { after: 200 } }),
-
-                    // PPE (Source 270-279)
-                    new Paragraph({ text: "PERSONAL PROTECTIVE EQUIPMENT", heading: HeadingLevel.HEADING_2 }),
-                    new Paragraph({ text: "Minimum Requirements (At all times)[cite: 271]:", bold: true }),
-                    new Paragraph({ text: "• Safety Boots (BS-EN 345) [cite: 272]\n• Hi-vis Vest (BS-EN 471) [cite: 273]\n• Gloves (BS-EN 388) [cite: 274]" }),
-                    new Paragraph({ text: "Task Specific Requirements[cite: 275]:", bold: true, spacing: { before: 100 } }),
-                    new Paragraph({ text: "• Safety Helmet with chin strap (BS-EN 397) [cite: 276]\n• Dust Mask (FFP3) (BS-EN 149) [cite: 277]\n• Grade 1 impact Goggles (BS-EN 166) [cite: 278]\n• Ear Plugs (BS-EN 352) [cite: 279]" }),
-
-                    // Labour & Supervision (Source 280-286)
-                    new Paragraph({ text: "LABOUR AND SUPERVISION", heading: HeadingLevel.HEADING_2, spacing: { before: 300 } }),
-                    new Paragraph(`Project Manager: ${val('pm')} [cite: 281]`),
-                    new Paragraph(`Project Coordinator: ${val('pc')} [cite: 283]`),
-                    new Paragraph(`Principal Contractor: ${val('princContractor')} [cite: 285]`),
-                    new Paragraph(`Main Contractor: ${val('mainContractor')} [cite: 286]`),
-
-                    // Manual Handling (Source 302-312)
-                    new Paragraph({ text: "MANUAL HANDLING & 100KG PROTOCOL", heading: HeadingLevel.HEADING_2, spacing: { before: 300 } }),
-                    new Paragraph({ text: "This section covers fire doors weighing in excess of 100 kg. A minimum of two trained operatives must be used for lifting[cite: 304, 308]. For doors over 100 kg, additional operatives or mechanical lifting equipment MUST be provided prior to work starting.", spacing: { after: 200 } }),
-
-                    // Emergency Procedures (Source 460-466)
-                    new Paragraph({ text: "EMERGENCY PROCEDURES", heading: HeadingLevel.HEADING_2 }),
-                    new Paragraph({ children: [new TextRun({ text: "Nearest A&E: ", bold: true }), new TextRun(hospitalInfo.name + " [cite: 465]")] }),
-                    new Paragraph({ children: [new TextRun({ text: "Address: ", bold: true }), new TextRun(hospitalInfo.address + " [cite: 465]")] }),
-                    new Paragraph({ text: "All personnel will undergo full site induction including evacuation procedures and Asbestos Register[cite: 461, 462].", spacing: { before: 100 } }),
-
-                    // Risk Assessment Table (Source 484 Extract)
-                    new Paragraph({ text: "RISK ASSESSMENT SUMMARY", heading: HeadingLevel.HEADING_2, spacing: { before: 400 } }),
-                    new Table({
-                        width: { size: 100, type: WidthType.PERCENTAGE },
-                        rows: [
-                            new TableRow({
-                                children: [
-                                    new TableCell({ children: [new Paragraph({ text: "Hazard", bold: true })], shading: { fill: "eeeeee" } }),
-                                    new TableCell({ children: [new Paragraph({ text: "Control Measures", bold: true })], shading: { fill: "eeeeee" } }),
-                                    new TableCell({ children: [new Paragraph({ text: "Risk", bold: true })], shading: { fill: "eeeeee" } })
-                                ]
-                            }),
-                            new TableRow({
-                                children: [
-                                    new TableCell({ children: [new Paragraph("Manual Handling ")] }),
-                                    new TableCell({ children: [new Paragraph("Use mechanical aids; TEAM lifting; Housekeeping ")] }),
-                                    new TableCell({ children: [new Paragraph("Low (L)")] })
-                                ]
-                            }),
-                            new TableRow({
-                                children: [
-                                    new TableCell({ children: [new Paragraph("Silica Dust ")] }),
-                                    new TableCell({ children: [new Paragraph("FFP3 Masks; Dust extraction on tools ")] }),
-                                    new TableCell({ children: [new Paragraph("Low (L)")] })
-                                ]
-                            })
-                        ]
-                    }),
-
-                    // HAVS Table (Source 486)
-                    new Paragraph({ text: "HAND-ARM VIBRATION (HAVS) ASSESSMENT", heading: HeadingLevel.HEADING_2, spacing: { before: 400 } }),
-                    new Paragraph({ text: "Equipment: DeWalt 18v SDS Drill. Max anticipated daily exposure: 30 mins per person. Vibration level: 1.3 m/s2. Risk Level: LOW.", spacing: { after: 200 } }),
-
-                    // Sign Off (Source 521)
-                    new Paragraph({ text: "READ & UNDERSTOOD SIGN-OFF", heading: HeadingLevel.HEADING_2, spacing: { before: 500 } }),
-                    new Table({
-                        width: { size: 100, type: WidthType.PERCENTAGE },
-                        rows: [
-                            new TableRow({ children: [
-                                new TableCell({ children: [new Paragraph("Date")] }),
-                                new TableCell({ children: [new Paragraph("Name")] }),
-                                new TableCell({ children: [new Paragraph("Signature")] })
-                            ]}),
-                            ...Array(5).fill(0).map(() => new TableRow({ children: [
-                                new TableCell({ children: [new Paragraph(" ")] }),
-                                new TableCell({ children: [new Paragraph(" ")] }),
-                                new TableCell({ children: [new Paragraph(" ")] })
-                            ]}))
-                        ]
-                    })
-                ]
-            }]
-        });
-
-        const blob = await Packer.toBlob(doc);
-        saveAs(blob, `RAMS_2025_${val('siteName') || 'Document'}.docx`);
+            const blob = await Packer.toBlob(doc);
+            saveAs(blob, `RAMS_2025_${val('siteName') || 'Untitled'}.docx`);
+            btn.innerText = "✅ Downloaded!";
+        } catch (err) {
+            console.error(err);
+            alert("Error creating document. Check the console for details.");
+        } finally {
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerText = "Download Completed RAMS Document (.docx)";
+            }, 3000);
+        }
     }
 </script>
 </body>
