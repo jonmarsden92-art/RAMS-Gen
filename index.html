@@ -2,174 +2,221 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Kingsway Group - Professional RAMS Generator 2025</title>
+    <title>Kingsway Group - Full RAMS Compliance Generator 2025</title>
     <style>
         :root { --brand: #1e3c72; --kingsway-red: #8b0000; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; padding: 40px 20px; }
-        .container { max-width: 950px; margin: 0 auto; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-        .header-ui { border-bottom: 3px solid var(--brand); margin-bottom: 30px; padding-bottom: 20px; }
-        h1 { color: var(--brand); margin: 0; font-size: 24px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 25px; }
-        .field { display: flex; flex-direction: column; }
-        label { font-weight: bold; font-size: 12px; color: #555; margin-bottom: 5px; text-transform: uppercase; }
-        input { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
-        .ae-box { background: #fff9c4; padding: 15px; border-left: 5px solid #fbc02d; margin-bottom: 25px; font-size: 14px; }
-        .btn-print { background: #28a745; color: white; border: none; padding: 15px 30px; font-size: 18px; font-weight: bold; border-radius: 5px; cursor: pointer; width: 100%; transition: 0.3s; }
-        .btn-print:hover { background: #218838; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7f9; padding: 20px; }
+        .no-print { max-width: 1100px; margin: 0 auto 40px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .form-section { border-bottom: 2px solid var(--brand); margin-bottom: 25px; padding-bottom: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .field { display: flex; flex-direction: column; margin-bottom: 12px; }
+        label { font-weight: bold; font-size: 11px; color: #444; text-transform: uppercase; margin-bottom: 5px; }
+        input, select { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .btn-main { background: #28a745; color: white; border: none; padding: 20px; width: 100%; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 6px; }
 
-        /* Print Specific Styling to match your 12-page Template */
+        /* A&E Finder Box */
+        .ae-finder { background: #fff9c4; border: 1px solid #fbc02d; padding: 15px; border-radius: 4px; margin-top: 10px; }
+
+        /* PDF / PRINT STYLING */
+        #pdf-output { display: none; }
         @media print {
             .no-print { display: none; }
-            body { background: white; padding: 0; }
-            .container { box-shadow: none; width: 100%; max-width: 100%; padding: 0; }
-            .page-break { page-break-before: always; padding-top: 20px; }
-            table { width: 100%; border-collapse: collapse; margin: 10px 0; }
-            th, td { border: 1px solid #333; padding: 8px; font-size: 11px; text-align: left; }
-            .header-table { background: #f2f2f2 !important; -webkit-print-color-adjust: exact; }
-            h2 { color: var(--brand); border-bottom: 1px solid #ccc; font-size: 16px; margin-top: 30px; }
+            #pdf-output { display: block; background: white; }
+            .page { page-break-after: always; padding: 1cm; font-size: 11pt; line-height: 1.4; color: #000; }
+            table { width: 100%; border-collapse: collapse; margin: 15px 0; page-break-inside: avoid; }
+            th, td { border: 1px solid #000; padding: 6px; text-align: left; vertical-align: top; }
+            .header-cell { background: #f2f2f2 !important; font-weight: bold; -webkit-print-color-adjust: exact; }
+            h1, h2, h3 { color: var(--brand); margin-top: 20px; border-bottom: 1px solid #eee; }
+            .standard-text { margin-bottom: 10px; text-align: justify; }
+            .sign-off-row { height: 35px; }
+            .mac-img { width: 100%; max-width: 600px; display: block; margin: 10px auto; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="no-print">
-        <div class="header-ui">
-            <h1>Kingsway Group RAMS Generator</h1>
-            <p>Fill the details below, then click the button to generate the 12-page PDF document.</p>
-        </div>
-
-        <div class="grid">
-            <div class="field"><label>Site Name</label><input type="text" id="siteName" placeholder="e.g. Priory Woodbourne"></div>
-            <div class="field"><label>Title of Task</label><input type="text" id="taskTitle" value="Door Set fitting"></div>
-            <div class="field"><label>Document Date</label><input type="date" id="taskDate"></div>
-        </div>
-
-        <div class="grid">
-            <div class="field"><label>Project Manager (Kingsway)</label><input type="text" id="pm" placeholder="Name & Number"></div>
-            <div class="field"><label>Project Coordinator</label><input type="text" id="pc" placeholder="Name & Number"></div>
-            <div class="field"><label>Electrical Supervisor</label><input type="text" id="elecSup" value="TBC"></div>
-        </div>
-
-        <div class="grid">
-            <div class="field"><label>Principal Contractor</label><input type="text" id="princContractor" placeholder="Client Name"></div>
-            <div class="field"><label>Main Contractor</label><input type="text" id="mainContractor" placeholder="Main Contractor"></div>
-            <div class="field"><label>MS Number</label><input type="text" id="msNo" value="RAMS1936/2022"></div>
-        </div>
-
-        <div class="field" style="margin-bottom: 20px;">
-            <label>Site Address (For A&E Search)</label>
-            <input type="text" id="siteAddress" placeholder="Enter Site Postcode or Address">
-            <div id="aeStatus" class="ae-box">A&E Lookup: 📍 Type address to find nearest hospital...</div>
-        </div>
-
-        <button class="btn-print" onclick="window.print()">GENERATE & PRINT PDF</button>
-        <p style="text-align: center; font-size: 12px; color: #666;">Note: In the print window, set "Destination" to "Save as PDF"</p>
+<div class="no-print">
+    <div class="form-section">
+        <h1 style="margin:0; color:var(--brand);">Kingsway Group RAMS Generator v2025.1</h1>
+        <p>This tool generates the full 12-page compliance document including Vibration Assessments and MAC Tools.</p>
     </div>
 
-    <div class="print-content">
+    <div class="form-section">
+        <h2>1. Project & Customer Details</h2>
+        <div class="grid">
+            <div class="field"><label>Site Name</label><input type="text" id="siteName" placeholder="e.g. Priory Woodbourne"></div>
+            <div class="field"><label>Task Title</label><input type="text" id="taskTitle" value="Door Set fitting"></div>
+            <div class="field"><label>Work Date</label><input type="date" id="taskDate"></div>
+        </div>
+        <div class="field">
+            <label>Full Site Address</label>
+            <input type="text" id="siteAddress" placeholder="Enter address for A&E Lookup">
+            <div id="aeStatus" class="ae-finder">📍 Waiting for address entry...</div>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2>2. Personnel & Contact Details</h2>
+        <div class="grid">
+            <div class="field"><label>Project Manager (Kingsway)</label><input type="text" id="pm" placeholder="Name/Number"></div>
+            <div class="field"><label>Project Coordinator</label><input type="text" id="pc" placeholder="Name/Number"></div>
+            <div class="field"><label>Electrical Supervisor</label><input type="text" id="elecSup" value="TBC"></div>
+            <div class="field"><label>Health & Safety Consultant</label><input type="text" id="hsConsultant" value="Mark Cain"></div>
+            <div class="field"><label>Principal Contractor</label><input type="text" id="princContractor" placeholder="Client Name"></div>
+            <div class="field"><label>Main Contractor</label><input type="text" id="mainContractor" placeholder="Main Contractor Name"></div>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2>3. Document Revision Control</h2>
+        <div class="grid">
+            <div class="field"><label>MS Number</label><input type="text" id="msNo" value="RAMS1936/2022"></div>
+            <div class="field"><label>Produced By</label><input type="text" id="producedBy"></div>
+            <div class="field"><label>Reviewed By</label><input type="text" id="reviewedBy" value="Mark Cain"></div>
+        </div>
+    </div>
+
+    <button class="btn-main" onclick="generateAndPrint()">GENERATE COMPLIANT 12-PAGE RAMS</button>
+</div>
+
+<div id="pdf-output">
+    <div class="page">
         <table class="header-table">
             <tr>
-                <td rowspan="2" style="width: 20%; font-weight: bold; text-align: center;">KINGSWAY GROUP</td>
-                <td colspan="2" style="font-weight: bold; font-size: 14px; text-align: center;">Safety Management System - Method Statement</td>
-                <td style="width: 25%;">MS NO: <span id="out-msNo"></span></td>
+                <td colspan="2" class="header-cell" style="font-size:16pt;">KINGSWAY GROUP - Safety Management System</td>
+                <td class="header-cell">MS NO: <span id="out-msNo"></span></td>
             </tr>
             <tr>
-                <td>Site: <span id="out-siteName"></span></td>
-                <td>Date: <span id="out-taskDate"></span></td>
-                <td>Ref: 2025/V1</td>
+                <td><strong>Site Name:</strong> <span id="out-siteName"></span></td>
+                <td><strong>Date:</strong> <span id="out-taskDate"></span></td>
+                <td><strong>Task:</strong> <span id="out-taskTitle"></span></td>
             </tr>
         </table>
 
-        <h2>1. INTRODUCTION</h2>
-        <p>This document sets out the arrangements and health and safety considerations included in the planning for the installation of Door Sets[cite: 6]. ALL KINGSWAY GROUP STAFF ARE TO BE MADE AWARE OF THIS DOCUMENT AND THE RELEVANT RISK ASSESSMENT[cite: 8].</p>
+        <h3>INTRODUCTION</h3>
+        <p class="standard-text">This document sets out the arrangements and health and safety considerations included in the planning for the installation of Door Sets[cite: 267]. The document provides an overview of pre-requisites, sequence of events, and specific activity details for each element of the installation and final fix process[cite: 268]. ALL KINGSWAY GROUP STAFF ARE TO BE MADE AWARE OF THIS DOCUMENT[cite: 269].</p>
 
-        <h2>2. LABOUR AND SUPERVISION</h2>
+        <h3>PERSONAL PROTECTIVE EQUIPMENT (PPE)</h3>
+        <p><strong>Minimum at all times:</strong> Safety Boots (BS-EN 345), Hi-vis Vest (BS-EN 471), Gloves (BS-EN 388) [cite: 271-274].</p>
+        <p><strong>Task Specific:</strong> Safety Helmet/Chin Strap (BS-EN 397), FFP3 Mask (BS-EN 149), Impact Goggles (BS-EN 166), Ear Plugs (BS-EN 352) [cite: 276-279].</p>
+
+        <h3>LABOUR AND SUPERVISION</h3>
         <table>
-            <tr><td><strong>Project Manager:</strong></td><td><span id="out-pm"></span></td></tr>
-            <tr><td><strong>Electrical Supervisor:</strong></td><td><span id="out-elecSup"></span></td></tr>
-            <tr><td><strong>Project Coordinator:</strong></td><td><span id="out-pc"></span></td></tr>
-            <tr><td><strong>Principal Contractor:</strong></td><td><span id="out-princContractor"></span></td></tr>
-            <tr><td><strong>Main Contractor:</strong></td><td><span id="out-mainContractor"></span></td></tr>
+            <tr><td class="header-cell" style="width:35%;">Project Manager</td><td><span id="out-pm"></span></td></tr>
+            <tr><td class="header-cell">Electrical Supervisor</td><td><span id="out-elecSup"></span></td></tr>
+            <tr><td class="header-cell">Project Coordinator</td><td><span id="out-pc"></span></td></tr>
+            <tr><td class="header-cell">Health & Safety Consultant</td><td><span id="out-hsConsultant"></span></td></tr>
+            <tr><td class="header-cell">Principal Contractor</td><td><span id="out-princContractor"></span></td></tr>
+            <tr><td class="header-cell">Main Contractor</td><td><span id="out-mainContractor"></span></td></tr>
         </table>
+    </div>
 
-        <h2>3. PERSONAL PROTECTIVE EQUIPMENT (PPE)</h2>
-        <p><strong>Minimum (At all times):</strong> Safety Boots (BS-EN 345), Hi-vis Vest (BS-EN 471), Gloves (BS-EN 388) [cite: 11-13].</p>
-        <p><strong>Task Specific:</strong> Safety Helmet (BS-EN 397), FFP3 Mask (BS-EN 149), Impact Goggles (BS-EN 166), Ear Plugs (BS-EN 352) [cite: 15-18].</p>
+    <div class="page">
+        <h3>MANUAL HANDLING SCOPE & PERSONNEL</h3>
+        <p class="standard-text">This section covers fire doors weighing in excess of <strong>100 kg</strong>[cite: 304]. Compliance with HSE manual handling guidance and TEAM handling principles is mandatory[cite: 304].</p>
+        <ul>
+            <li>Minimum of two trained operatives must be used for each door[cite: 308].</li>
+            <li>For doors over 100 kg, additional operatives or mechanical lifting equipment (hoists, vacuum lifters) <strong>must</strong> be provided[cite: 311, 372].</li>
+            <li>If sufficient personnel or aids are not available, <strong>work must not proceed</strong> and must be reported to the Head of Installation [cite: 374-377].</li>
+        </ul>
 
-        <div class="page-break"></div>
+        <h3>EMERGENCY PROCEDURES</h3>
+        <p><strong>Nearest Hospital:</strong> <span id="out-hospName">TBC</span></p>
+        <p><strong>Address:</strong> <span id="out-hospAddr">TBC</span></p>
+        <p class="standard-text">All staff must sign the site Asbestos Register (pre-2000 buildings)[cite: 389]. No drilling is to occur if an asbestos management plan is not present or if asbestos is identified[cite: 392, 396].</p>
+    </div>
 
-        <h2>4. MANUAL HANDLING (100KG+ PROTOCOL)</h2>
-        <p>This section covers doors weighing in excess of <strong>100 kg</strong>[cite: 43]. A minimum of two trained operatives must be used[cite: 47]. For doors over 100 kg, additional operatives or mechanical lifting equipment <strong>must</strong> be provided[cite: 50]. If mechanical aids are unavailable, work <strong>must not proceed</strong>[cite: 114].</p>
-
-        <h2>5. EMERGENCY PROCEDURES</h2>
-        <p><strong>Hospital Facility:</strong> <span id="out-hospName">TBC</span><br>
-        <strong>Address:</strong> <span id="out-hospAddr">TBC</span></p>
-        <p>All personnel must undergo full site induction including fire evacuation and Asbestos Register [cite: 200-201].</p>
-
-        <h2>6. RISK ASSESSMENT SUMMARY</h2>
+    <div class="page">
+        <h3>RISK ASSESSMENT SUMMARY</h3>
         <table>
-            <tr style="background: #eee;"><th>Hazard</th><th>Risk</th><th>Controls</th><th>Residual</th></tr>
-            <tr><td>Working at Height</td><td>High</td><td>Ladders checked before use, 3 points of contact[cite: 222].</td><td>Low</td></tr>
-            <tr><td>Manual Handling</td><td>High</td><td>Mechanical aids used, 100kg+ protocol strictly followed[cite: 223].</td><td>Low</td></tr>
-            <tr><td>Silica Dust</td><td>Medium</td><td>FFP3 Masks and dust extraction on all power tools[cite: 223].</td><td>Low</td></tr>
+            <tr class="header-cell"><th>Process</th><th>Hazard</th><th>Controls</th><th>Risk Level</th></tr>
+            <tr><td>Working at Height</td><td>Falls</td><td>Ladders checked before use; 3 points of contact at all times[cite: 483].</td><td>Low</td></tr>
+            <tr><td>COSHH</td><td>Irritation</td><td>FFP3 masks, gloves, and eye protection standard for adhesives/wood cutting[cite: 483].</td><td>Low</td></tr>
+            <tr><td>Electrical Tools</td><td>Shock/HAVS</td><td>18V battery tools only; Task rotation to reduce vibration exposure[cite: 483].</td><td>Low</td></tr>
+            <tr><td>Manual Handling</td><td>MSK Injury</td><td>Mechanical aids (trolleys/dollies) used; 100kg+ Team protocol followed[cite: 484].</td><td>Low</td></tr>
         </table>
+    </div>
 
-        <div class="page-break"></div>
-        <h2>7. READ AND UNDERSTOOD SIGN-OFF</h2>
-        <p>I confirm I have read and understood the Method Statement and Risk Assessments provided for this task[cite: 259].</p>
-        <table style="height: 400px;">
-            <tr><th>Date</th><th>Name</th><th>Signature</th></tr>
-            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
-            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <div class="page">
+        <h3>HAND-ARM VIBRATION (HAVS) ASSESSMENT</h3>
+        <p>Tool: DeWalt 18v SDS | Max Exposure: 30 mins | Vibration Level: 1.3 m/s².</p>
+        <p class="standard-text">Daily limit of 2 hours and 28 minutes trigger time must not be exceeded by staff.</p>
+         [cite: 489]
+    </div>
+
+    <div class="page">
+        <h3>MAC TOOL: TEAM HANDLING ASSESSMENT</h3>
+        <p class="standard-text">Assess the 'worst-case scenario' for team lifting. For teams of five or more, a full specific risk assessment is required[cite: 496, 502].</p>
+        
+         [cite: 517, 518]
+
+        <table>
+            <tr class="header-cell"><th>Risk Factor</th><th>Colour Band (G/A/R/P)</th><th>Score</th></tr>
+            <tr><td>Load Weight</td><td><span id="out-mac-weight"></span></td><td>-</td></tr>
+            <tr><td>Hand Distance</td><td><span id="out-mac-dist"></span></td><td>-</td></tr>
+            <tr><td>Vertical Zone</td><td><span id="out-mac-zone"></span></td><td>-</td></tr>
         </table>
+    </div>
+
+    <div class="page">
+        <h3>READ AND UNDERSTOOD SIGN-OFF</h3>
+        <p>I confirm I have read, understood, and will comply with this Method Statement and Risk Assessment[cite: 520].</p>
+        <table>
+            <tr class="header-cell"><th>Date</th><th>Name</th><th>Signature</th></tr>
+            <tr class="sign-off-row"><td></td><td></td><td></td></tr>
+            <tr class="sign-off-row"><td></td><td></td><td></td></tr>
+            <tr class="sign-off-row"><td></td><td></td><td></td></tr>
+            <tr class="sign-off-row"><td></td><td></td><td></td></tr>
+            <tr class="sign-off-row"><td></td><td></td><td></td></tr>
+        </table>
+        <p style="text-align:right; font-size:9pt;">Method Statement Page 12 of 12 </p>
     </div>
 </div>
 
 <script>
-    // Set default date
+    // Initialize defaults
     document.getElementById('taskDate').valueAsDate = new Date();
 
-    // Mapping inputs to document
-    const inputs = ['siteName', 'taskDate', 'pm', 'pc', 'elecSup', 'princContractor', 'mainContractor', 'msNo'];
-    inputs.forEach(id => {
-        document.getElementById(id).addEventListener('input', (e) => {
-            document.getElementById('out-' + id).innerText = e.target.value;
-        });
-    });
-
-    // A&E Finder Logic
+    // A&E Search Logic
     let timer;
     document.getElementById('siteAddress').addEventListener('input', (e) => {
         clearTimeout(timer);
-        timer = setTimeout(() => findHospital(e.target.value), 1000);
+        timer = setTimeout(() => findHospital(e.target.value), 1200);
     });
 
     async function findHospital(query) {
         if (query.length < 5) return;
         const status = document.getElementById('aeStatus');
-        status.innerText = "🔍 Searching for nearest A&E...";
-        
+        status.innerText = "🔍 Searching...";
         try {
-            const geo = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query + " UK")}`);
-            const data = await geo.json();
+            const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query + " UK")}`);
+            const data = await res.json();
             if (data.length > 0) {
                 const { lat, lon } = data[0];
-                const osm = `[out:json];node["amenity"="hospital"]["emergency"="yes"](around:20000,${lat},${lon});out;`;
+                const osm = `[out:json];node["amenity"="hospital"]["emergency"="yes"](around:15000,${lat},${lon});out;`;
                 const hRes = await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: osm });
                 const hData = await hRes.json();
                 if (hData.elements.length > 0) {
                     const h = hData.elements[0];
-                    const name = h.tags.name || "Local Hospital";
-                    const addr = h.tags['addr:street'] || "Nearest A&E Facility";
-                    status.innerHTML = `✅ <strong>Found:</strong> ${name}`;
-                    document.getElementById('out-hospName').innerText = name;
-                    document.getElementById('out-hospAddr').innerText = addr;
+                    status.innerHTML = `✅ <strong>Found:</strong> ${h.tags.name}`;
+                    window.hospName = h.tags.name;
+                    window.hospAddr = h.tags['addr:street'] || "Local A&E Dept";
                 }
             }
-        } catch (e) { status.innerText = "⚠️ Manual entry required for A&E."; }
+        } catch (e) { status.innerText = "⚠️ Finder unavailable. Enter manually."; }
+    }
+
+    function generateAndPrint() {
+        const fields = ['siteName', 'taskTitle', 'taskDate', 'pm', 'pc', 'elecSup', 'hsConsultant', 'princContractor', 'mainContractor', 'msNo'];
+        fields.forEach(f => {
+            const val = document.getElementById(f).value;
+            document.getElementById('out-' + f).innerText = val || "---";
+        });
+        
+        document.getElementById('out-hospName').innerText = window.hospName || "TBC";
+        document.getElementById('out-hospAddr').innerText = window.hospAddr || "TBC";
+
+        window.print();
     }
 </script>
 </body>
