@@ -3,450 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RAMS Generator - Kingsway Group</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.min.js"></script>
+    <title>Kingsway Group - RAMS Generator 2025</title>
+    <script src="https://unpkg.com/docx@8.5.0/build/index.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            opacity: 0.9;
-            font-size: 16px;
-        }
-
-        .form-container {
-            padding: 30px;
-        }
-
-        .section {
-            margin-bottom: 30px;
-            padding: 25px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border-left: 4px solid #2a5298;
-        }
-
-        .section h2 {
-            color: #1e3c72;
-            margin-bottom: 20px;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section h2::before {
-            content: '';
-            width: 6px;
-            height: 24px;
-            background: #667eea;
-            border-radius: 3px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #333;
-            font-size: 14px;
-        }
-
-        input[type="text"],
-        input[type="date"],
-        textarea,
-        select {
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            font-size: 14px;
-            transition: all 0.3s;
-            font-family: inherit;
-        }
-
-        input[type="text"]:focus,
-        input[type="date"]:focus,
-        textarea:focus,
-        select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .ae-info {
-            background: #e3f2fd;
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 10px;
-            border-left: 4px solid #2196F3;
-        }
-
-        .ae-info h4 {
-            color: #1976D2;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .ae-info p {
-            color: #555;
-            font-size: 13px;
-            margin: 4px 0;
-        }
-
-        .loading {
-            display: none;
-            color: #666;
-            font-style: italic;
-            font-size: 13px;
-            margin-top: 8px;
-        }
-
-        .generate-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 16px 40px;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .generate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-        }
-
-        .generate-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .info-box {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-        }
-
-        .checkbox-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 12px;
-            margin-top: 10px;
-        }
-
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        @media (max-width: 768px) {
-            .form-row { grid-template-columns: 1fr; }
-            .header h1 { font-size: 24px; }
-        }
+        :root { --kingsway-blue: #1e3c72; --kingsway-red: #8b0000; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f9; padding: 20px; color: #333; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background: var(--kingsway-blue); color: white; padding: 20px; text-align: center; }
+        .form-section { padding: 25px; border-bottom: 1px solid #eee; }
+        .form-section h2 { font-size: 1.1rem; color: var(--kingsway-blue); border-left: 4px solid var(--kingsway-blue); padding-left: 10px; margin-bottom: 20px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .field { display: flex; flex-direction: column; gap: 5px; }
+        label { font-weight: bold; font-size: 0.85rem; color: #666; }
+        input, select, textarea { padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .ae-result { background: #eef6ff; padding: 10px; margin-top: 10px; border-radius: 4px; font-size: 0.9rem; }
+        .btn-generate { background: #28a745; color: white; border: none; padding: 20px; width: 100%; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-generate:hover { background: #218838; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🔧 RAMS Generator</h1>
-            <p>Risk Assessment Method Statement - Kingsway Group</p>
-        </div>
 
-        <div class="form-container">
-            <div class="info-box">
-                <p>📋 Fill in the details below. The nearest A&E will be found automatically based on the site address.</p>
-            </div>
-
-            <div class="section">
-                <h2>Site Information</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="siteName">Site Name *</label>
-                        <input type="text" id="siteName" required placeholder="e.g., London Bridge Tower">
-                    </div>
-                    <div class="form-group">
-                        <label for="siteAddress">Site Address *</label>
-                        <input type="text" id="siteAddress" required placeholder="Full address including postcode">
-                        <div class="loading" id="aeLoading">🔍 Looking up nearest A&E...</div>
-                        <div id="aeInfo"></div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="taskDate">Date *</label>
-                        <input type="date" id="taskDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="taskTitle">Title of Task *</label>
-                        <input type="text" id="taskTitle" value="Door Set fitting" required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2>Labour and Supervision</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="projectManager">Project Manager *</label>
-                        <input type="text" id="projectManager" required placeholder="Name / Number">
-                    </div>
-                    <div class="form-group">
-                        <label for="electricalSupervisor">Electrical Supervisor</label>
-                        <input type="text" id="electricalSupervisor" value="TBC">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="projectCoordinator">Project Coordinator *</label>
-                        <input type="text" id="projectCoordinator" required placeholder="Name / Number">
-                    </div>
-                    <div class="form-group">
-                        <label for="healthSafety">Health & Safety Consultant</label>
-                        <input type="text" id="healthSafety" placeholder="Name/Company/Number">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="principalContractor">Principal Contractor Name *</label>
-                        <input type="text" id="principalContractor" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="mainContractor">Main Contractor Name *</label>
-                        <input type="text" id="mainContractor" required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2>Document Control</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="msNumber">MS Number</label>
-                        <input type="text" id="msNumber" value="RAMS1936/2022">
-                    </div>
-                    <div class="form-group">
-                        <label for="issueNumber">Issue Number</label>
-                        <input type="text" id="issueNumber" value="1">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="issueDate">Issue Date</label>
-                        <input type="date" id="issueDate">
-                    </div>
-                    <div class="form-group">
-                        <label for="revision">Revision</label>
-                        <input type="text" id="revision" placeholder="A, B, etc.">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="producedBy">Produced by *</label>
-                        <input type="text" id="producedBy" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="reviewedBy">Reviewed by</label>
-                        <input type="text" id="reviewedBy">
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2>Personal Protective Equipment</h2>
-                <div class="checkbox-group">
-                    <div class="checkbox-item"><input type="checkbox" id="ppe-helmet" checked><label for="ppe-helmet">Safety Helmet</label></div>
-                    <div class="checkbox-item"><input type="checkbox" id="ppe-mask" checked><label for="ppe-mask">Dust Mask (FFP3)</label></div>
-                    <div class="checkbox-item"><input type="checkbox" id="ppe-goggles" checked><label for="ppe-goggles">Impact Goggles</label></div>
-                    <div class="checkbox-item"><input type="checkbox" id="ppe-earplugs" checked><label for="ppe-earplugs">Ear Plugs</label></div>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2>Additional Information</h2>
-                <textarea id="additionalNotes" rows="4" placeholder="Specific project notes..."></textarea>
-            </div>
-
-            <button class="generate-btn" onclick="generateRAMS()">📄 Generate RAMS Document</button>
-        </div>
+<div class="container">
+    <div class="header">
+        <h1>Kingsway Group RAMS Generator</h1>
+        <p>Door Set Installation Professional Template (v2025.1)</p>
     </div>
 
-    <script>
-        document.getElementById('taskDate').valueAsDate = new Date();
-        document.getElementById('issueDate').valueAsDate = new Date();
-        let nearestAE = null;
+    <div class="form-body">
+        <div class="form-section">
+            <h2>1. Project Identification</h2>
+            <div class="grid">
+                <div class="field"><label>Site Name</label><input type="text" id="siteName" placeholder="e.g. Priory Hospital"></div>
+                <div class="field"><label>Task Title</label><input type="text" id="taskTitle" value="Door Set fitting"></div>
+                <div class="field">
+                    <label>Site Address (Auto-lookup A&E)</label>
+                    <input type="text" id="siteAddress" placeholder="Enter address or postcode">
+                    <div id="aeResult" class="ae-result">A&E: TBC (Type address to search)</div>
+                </div>
+                <div class="field"><label>Date of Work</label><input type="date" id="taskDate"></div>
+            </div>
+        </div>
 
-        let addressTimeout;
-        document.getElementById('siteAddress').addEventListener('input', function() {
-            clearTimeout(addressTimeout);
-            addressTimeout = setTimeout(() => lookupNearestAE(this.value), 800);
+        <div class="form-section">
+            <h2>2. Labour and Supervision</h2>
+            <div class="grid">
+                <div class="field"><label>Project Manager (Kingsway)</label><input type="text" id="pm" placeholder="Name / Number"></div>
+                <div class="field"><label>Project Coordinator</label><input type="text" id="pc" placeholder="Name / Number"></div>
+                <div class="field"><label>Principal Contractor</label><input type="text" id="princContractor" placeholder="Client Name"></div>
+                <div class="field"><label>Main Contractor</label><input type="text" id="mainContractor" placeholder="Main Contractor Name"></div>
+                <div class="field"><label>H&S Consultant</label><input type="text" id="hsConsultant" placeholder="Name / Company"></div>
+                <div class="field"><label>MS Number</label><input type="text" id="msNumber" value="RAMS1936/2022"></div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>3. Document Control</h2>
+            <div class="grid">
+                <div class="field"><label>Produced By</label><input type="text" id="producedBy"></div>
+                <div class="field"><label>Reviewed By</label><input type="text" id="reviewedBy"></div>
+            </div>
+        </div>
+
+        <button class="btn-generate" onclick="generateDocument()">Generate & Download Complete RAMS (.docx)</button>
+    </div>
+</div>
+
+<script>
+    document.getElementById('taskDate').valueAsDate = new Date();
+    let hospitalInfo = { name: "TBC", address: "Local facility as directed by PC" };
+
+    // A&E Lookup
+    let timer;
+    document.getElementById('siteAddress').addEventListener('input', (e) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => lookupAE(e.target.value), 1000);
+    });
+
+    async function lookupAE(query) {
+        if (query.length < 5) return;
+        try {
+            const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query + " UK")}`);
+            const data = await res.json();
+            if (data.length > 0) {
+                const { lat, lon } = data[0];
+                const osm = `[out:json];node["amenity"="hospital"]["emergency"="yes"](around:20000,${lat},${lon});out;`;
+                const hRes = await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: osm });
+                const hData = await hRes.json();
+                if (hData.elements.length > 0) {
+                    const h = hData.elements[0];
+                    hospitalInfo = { name: h.tags.name, address: h.tags['addr:street'] || "Nearest Emergency Dept" };
+                    document.getElementById('aeResult').innerText = `A&E Found: ${hospitalInfo.name}`;
+                }
+            }
+        } catch (e) { console.log("A&E Lookup fail"); }
+    }
+
+    async function generateDocument() {
+        const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, WidthType, AlignmentType, HeadingLevel, BorderStyle, ShadingType } = window.docx;
+        const val = (id) => document.getElementById(id).value;
+
+        const doc = new Document({
+            sections: [{
+                children: [
+                    // Header Table (Source 483 style)
+                    new Table({
+                        width: { size: 100, type: WidthType.PERCENTAGE },
+                        rows: [
+                            new TableRow({
+                                children: [
+                                    new TableCell({ 
+                                        children: [new Paragraph({ children: [new TextRun({ text: "KINGSWAY GROUP - Safety Management System", bold: true, size: 24 })], alignment: AlignmentType.CENTER })],
+                                        columnSpan: 2, shading: { fill: "f2f2f2" }
+                                    })
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({ children: [new Paragraph(`Site Name: ${val('siteName')}`)] }),
+                                    new TableCell({ children: [new Paragraph(`MS NO: ${val('msNumber')}`)] })
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({ children: [new Paragraph(`Date: ${val('taskDate')}`)] }),
+                                    new TableCell({ children: [new Paragraph(`Task: ${val('taskTitle')}`)] })
+                                ]
+                            })
+                        ]
+                    }),
+
+                    // Introduction (Source 266-269)
+                    new Paragraph({ text: "INTRODUCTION", heading: HeadingLevel.HEADING_1, spacing: { before: 400 } }),
+                    new Paragraph({ text: "This document sets out the arrangements and health and safety considerations included in the planning for the installation of Door Sets. ALL KINGSWAY GROUP STAFF ARE TO BE MADE AWARE OF THIS DOCUMENT AND THE RELEVANT RISK ASSESSMENT[cite: 269].", spacing: { after: 200 } }),
+
+                    // PPE (Source 270-279)
+                    new Paragraph({ text: "PERSONAL PROTECTIVE EQUIPMENT", heading: HeadingLevel.HEADING_2 }),
+                    new Paragraph({ text: "Minimum Requirements (At all times)[cite: 271]:", bold: true }),
+                    new Paragraph({ text: "• Safety Boots (BS-EN 345) [cite: 272]\n• Hi-vis Vest (BS-EN 471) [cite: 273]\n• Gloves (BS-EN 388) [cite: 274]" }),
+                    new Paragraph({ text: "Task Specific Requirements[cite: 275]:", bold: true, spacing: { before: 100 } }),
+                    new Paragraph({ text: "• Safety Helmet with chin strap (BS-EN 397) [cite: 276]\n• Dust Mask (FFP3) (BS-EN 149) [cite: 277]\n• Grade 1 impact Goggles (BS-EN 166) [cite: 278]\n• Ear Plugs (BS-EN 352) [cite: 279]" }),
+
+                    // Labour & Supervision (Source 280-286)
+                    new Paragraph({ text: "LABOUR AND SUPERVISION", heading: HeadingLevel.HEADING_2, spacing: { before: 300 } }),
+                    new Paragraph(`Project Manager: ${val('pm')} [cite: 281]`),
+                    new Paragraph(`Project Coordinator: ${val('pc')} [cite: 283]`),
+                    new Paragraph(`Principal Contractor: ${val('princContractor')} [cite: 285]`),
+                    new Paragraph(`Main Contractor: ${val('mainContractor')} [cite: 286]`),
+
+                    // Manual Handling (Source 302-312)
+                    new Paragraph({ text: "MANUAL HANDLING & 100KG PROTOCOL", heading: HeadingLevel.HEADING_2, spacing: { before: 300 } }),
+                    new Paragraph({ text: "This section covers fire doors weighing in excess of 100 kg. A minimum of two trained operatives must be used for lifting[cite: 304, 308]. For doors over 100 kg, additional operatives or mechanical lifting equipment MUST be provided prior to work starting.", spacing: { after: 200 } }),
+
+                    // Emergency Procedures (Source 460-466)
+                    new Paragraph({ text: "EMERGENCY PROCEDURES", heading: HeadingLevel.HEADING_2 }),
+                    new Paragraph({ children: [new TextRun({ text: "Nearest A&E: ", bold: true }), new TextRun(hospitalInfo.name + " [cite: 465]")] }),
+                    new Paragraph({ children: [new TextRun({ text: "Address: ", bold: true }), new TextRun(hospitalInfo.address + " [cite: 465]")] }),
+                    new Paragraph({ text: "All personnel will undergo full site induction including evacuation procedures and Asbestos Register[cite: 461, 462].", spacing: { before: 100 } }),
+
+                    // Risk Assessment Table (Source 484 Extract)
+                    new Paragraph({ text: "RISK ASSESSMENT SUMMARY", heading: HeadingLevel.HEADING_2, spacing: { before: 400 } }),
+                    new Table({
+                        width: { size: 100, type: WidthType.PERCENTAGE },
+                        rows: [
+                            new TableRow({
+                                children: [
+                                    new TableCell({ children: [new Paragraph({ text: "Hazard", bold: true })], shading: { fill: "eeeeee" } }),
+                                    new TableCell({ children: [new Paragraph({ text: "Control Measures", bold: true })], shading: { fill: "eeeeee" } }),
+                                    new TableCell({ children: [new Paragraph({ text: "Risk", bold: true })], shading: { fill: "eeeeee" } })
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({ children: [new Paragraph("Manual Handling ")] }),
+                                    new TableCell({ children: [new Paragraph("Use mechanical aids; TEAM lifting; Housekeeping ")] }),
+                                    new TableCell({ children: [new Paragraph("Low (L)")] })
+                                ]
+                            }),
+                            new TableRow({
+                                children: [
+                                    new TableCell({ children: [new Paragraph("Silica Dust ")] }),
+                                    new TableCell({ children: [new Paragraph("FFP3 Masks; Dust extraction on tools ")] }),
+                                    new TableCell({ children: [new Paragraph("Low (L)")] })
+                                ]
+                            })
+                        ]
+                    }),
+
+                    // HAVS Table (Source 486)
+                    new Paragraph({ text: "HAND-ARM VIBRATION (HAVS) ASSESSMENT", heading: HeadingLevel.HEADING_2, spacing: { before: 400 } }),
+                    new Paragraph({ text: "Equipment: DeWalt 18v SDS Drill. Max anticipated daily exposure: 30 mins per person. Vibration level: 1.3 m/s2. Risk Level: LOW.", spacing: { after: 200 } }),
+
+                    // Sign Off (Source 521)
+                    new Paragraph({ text: "READ & UNDERSTOOD SIGN-OFF", heading: HeadingLevel.HEADING_2, spacing: { before: 500 } }),
+                    new Table({
+                        width: { size: 100, type: WidthType.PERCENTAGE },
+                        rows: [
+                            new TableRow({ children: [
+                                new TableCell({ children: [new Paragraph("Date")] }),
+                                new TableCell({ children: [new Paragraph("Name")] }),
+                                new TableCell({ children: [new Paragraph("Signature")] })
+                            ]}),
+                            ...Array(5).fill(0).map(() => new TableRow({ children: [
+                                new TableCell({ children: [new Paragraph(" ")] }),
+                                new TableCell({ children: [new Paragraph(" ")] }),
+                                new TableCell({ children: [new Paragraph(" ")] })
+                            ]}))
+                        ]
+                    })
+                ]
+            }]
         });
 
-        async function lookupNearestAE(address) {
-            if (!address || address.length < 5) return;
-            const loading = document.getElementById('aeLoading');
-            const infoDiv = document.getElementById('aeInfo');
-            loading.style.display = 'block';
-            
-            try {
-                const geoUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address + ', UK')}&format=json&limit=1`;
-                const geoRes = await fetch(geoUrl);
-                const geoData = await geoRes.json();
-                if (!geoData.length) throw new Error();
-
-                const { lat, lon } = geoData[0];
-                const query = `[out:json];(node["amenity"="hospital"]["emergency"="yes"](around:20000,${lat},${lon}););out center;`;
-                const aeRes = await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: query });
-                const aeData = await aeRes.json();
-
-                if (aeData.elements.length > 0) {
-                    const ae = aeData.elements[0];
-                    nearestAE = {
-                        name: ae.tags.name || "Hospital A&E",
-                        address: `${ae.tags['addr:street'] || ''} ${ae.tags['addr:postcode'] || ''}`.trim() || "Local A&E Department",
-                        phone: ae.tags.phone || "999"
-                    };
-                    infoDiv.innerHTML = `<div class="ae-info"><h4>🏥 Nearest A&E Found</h4><p><strong>${nearestAE.name}</strong></p><p>${nearestAE.address}</p></div>`;
-                }
-            } catch (e) {
-                infoDiv.innerHTML = '<p style="color:red; font-size:12px; margin-top:5px;">⚠️ Could not auto-find A&E.</p>';
-            } finally {
-                loading.style.display = 'none';
-            }
-        }
-
-        async function generateRAMS() {
-            const btn = document.querySelector('.generate-btn');
-            btn.disabled = true;
-            btn.textContent = '⏳ Generating...';
-
-            try {
-                const doc = await createRAMSDocument();
-                const blob = await docx.Packer.toBlob(doc);
-                saveAs(blob, `RAMS_${document.getElementById('siteName').value || 'Doc'}.docx`);
-                btn.textContent = '✅ Success!';
-            } catch (err) {
-                console.error(err);
-                alert("Generation failed. Check console.");
-            } finally {
-                setTimeout(() => { btn.disabled = false; btn.textContent = '📄 Generate RAMS Document'; }, 3000);
-            }
-        }
-
-        async function createRAMSDocument() {
-            const { Document, Paragraph, TextRun, Table, TableRow, TableCell, HeadingLevel, AlignmentType, BorderStyle, WidthType, ShadingType, SectionType } = docx;
-
-            const val = (id) => document.getElementById(id).value;
-            const ppeList = [];
-            if(document.getElementById('ppe-helmet').checked) ppeList.push("Safety Helmet");
-            if(document.getElementById('ppe-mask').checked) ppeList.push("Dust Mask (FFP3)");
-            if(document.getElementById('ppe-goggles').checked) ppeList.push("Impact Goggles");
-            if(document.getElementById('ppe-earplugs').checked) ppeList.push("Ear Plugs");
-
-            const border = { style: BorderStyle.SINGLE, size: 1, color: "000000" };
-
-            return new Document({
-                sections: [{
-                    properties: { type: SectionType.CONTINUOUS },
-                    children: [
-                        new Table({
-                            width: { size: 100, type: WidthType.PERCENTAGE },
-                            rows: [
-                                new TableRow({
-                                    children: [
-                                        new TableCell({
-                                            children: [new Paragraph({ children: [new TextRun({ text: "KINGSWAY GROUP - RAMS", bold: true, size: 28 })], alignment: AlignmentType.CENTER })],
-                                            shading: { fill: "D9E1F2" }, columnSpan: 2
-                                        })
-                                    ]
-                                }),
-                                new TableRow({
-                                    children: [
-                                        new TableCell({ children: [new Paragraph(`MS NO: ${val('msNumber')}`)] }),
-                                        new TableCell({ children: [new Paragraph(`Issue: ${val('issueNumber')} / Rev: ${val('revision')}`)] })
-                                    ]
-                                })
-                            ]
-                        }),
-                        new Paragraph({ text: "", spacing: { before: 200 } }),
-                        new Paragraph({ children: [new TextRun({ text: "Site:", bold: true }), new TextRun(` ${val('siteName')}`)] }),
-                        new Paragraph({ children: [new TextRun({ text: "Address:", bold: true }), new TextRun(` ${val('siteAddress')}`)] }),
-                        new Paragraph({ children: [new TextRun({ text: "Task:", bold: true }), new TextRun(` ${val('taskTitle')}`)] }),
-                        new Paragraph({ children: [new TextRun({ text: "Date:", bold: true }), new TextRun(` ${val('taskDate')}`)] }),
-                        
-                        new Paragraph({ text: "EMERGENCY CONTACT INFORMATION", heading: HeadingLevel.HEADING_2, spacing: { before: 400, after: 200 } }),
-                        new Paragraph({ children: [new TextRun({ text: "Nearest A&E:", bold: true }), new TextRun(` ${nearestAE ? nearestAE.name : 'TBC'}`)] }),
-                        new Paragraph({ children: [new TextRun({ text: "Hospital Address:", bold: true }), new TextRun(` ${nearestAE ? nearestAE.address : 'TBC'}`)] }),
-                        
-                        new Paragraph({ text: "LABOUR & SUPERVISION", heading: HeadingLevel.HEADING_2, spacing: { before: 400, after: 200 } }),
-                        new Paragraph(`Project Manager: ${val('projectManager')}`),
-                        new Paragraph(`Project Coordinator: ${val('projectCoordinator')}`),
-                        new Paragraph(`Principal Contractor: ${val('principalContractor')}`),
-                        
-                        new Paragraph({ text: "REQUIRED PPE", heading: HeadingLevel.HEADING_2, spacing: { before: 400, after: 200 } }),
-                        ...ppeList.map(item => new Paragraph({ text: `• ${item}`, bullet: { level: 0 } })),
-
-                        new Paragraph({ text: "ADDITIONAL NOTES", heading: HeadingLevel.HEADING_2, spacing: { before: 400, after: 200 } }),
-                        new Paragraph(val('additionalNotes') || "No specific notes provided.")
-                    ]
-                }]
-            });
-        }
-    </script>
+        const blob = await Packer.toBlob(doc);
+        saveAs(blob, `RAMS_2025_${val('siteName') || 'Document'}.docx`);
+    }
+</script>
 </body>
 </html>
